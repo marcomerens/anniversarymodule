@@ -45,14 +45,12 @@ modules: [
       <td><code>limit</code></td>
       <td>This is number of birthdays you want to show in the future. Default is 4. It's the length of the table.
       </td>
-    </tr>
-    
+</tr>
     <tr>
       <td><code>people</code></td>
       <td>This is an array of people with their name and birthdates. The date is in ISO formaty YYYY-MM-DD. 
 	Default is just a example of one.
       </td>
     </tr>
-
   </tbody>
 </table>
