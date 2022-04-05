@@ -10,7 +10,12 @@ The dates are recalculated every hour.
 
 ## Installation instructions 
 Just pull down this repo and copy it in the modules folder under your Magic Mirror installation folder
-
+```
+cd ~/MagicMirror/modules/
+git clone https://github.com/marcomerens/anniversarymodule BIRTHDAYS
+cd BIRTHDAYS
+npm i
+```
 
 ## Using the module
 
