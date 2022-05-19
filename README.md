@@ -28,7 +28,11 @@ modules: [
     config: {
       // See 'Configuration options' for more information.
       limit:4,
-	people:[{name:"Marco",birthdate:"1973-12-30"}]
+	people:[
+		{name:"Marco",birthdate:"1973-12-30"},
+		{name:"Steve",birthdate:"1988-11-25"},
+		// You can add more names by adding more lines of the same format. 
+	]
 
     }
   }
