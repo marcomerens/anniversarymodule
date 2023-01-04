@@ -3,22 +3,26 @@
 	<table>
 	<thead>
 		<tr>
+			<th>Still days</th>
 			<th>Name</th>
-			<th>Date</th>
-			<th>Days</th>
+			<th>Becomes </th>
+			<th>On</th>
+			<th>Born in the year</th>
 		</tr>
 	</thead>
 		<tbody>
 		{% for p in people.slice(0,limit) %}
 		
 		<tr>
-			<td>{{p.name}}</td>
-			<td>{{p.date}}</td>
 		{% if p.days == 0 %}
-			<td>Today</td>
+		<td>Today</td>
 		{% else %}
 			<td>{{p.days}}</td>
 		{% endif %}
+		<td>{{p.name}}</td>
+		<td>{{p.age}} Year</td>
+		<td> {{p.date}}</td>
+		<td>*.     {{p.birthyear}}</td>
 		</tr>	
 		{% endfor %}
 		</tbody>
