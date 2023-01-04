@@ -1,10 +1,13 @@
 /* Magic Mirror
- * Module: BIRTHDAYS
+ * Module: MMM-Birthdays
  *
- * By Marco Merens
+ * By Jean-Marie Straetemans
+ * derived from BIRTHDAYS
+ * Initially By Marco Merens
+ * Module: BIRTHDAYS
  * MIT Licensed.
  */
-Module.register("BIRTHDAYS", {
+Module.register("MMM-Birthdays", {
 
 
 	defaults: {
@@ -33,14 +36,14 @@ Module.register("BIRTHDAYS", {
 			var bdate=new Date(p.birthdate)
 			var bmonth=bdate.getUTCMonth()
 			var bday=bdate.getUTCDate()
+			var byear=bdate.getUTCFullYear()
+			p.age:thisyear-byear
 			var diff=new Date(thisyear,bmonth,bday).getTime()-today
-			if (diff<0) {
-
-
-				diff=new Date(thisyear+1,bmonth,bday).getTime()-today}
+			if (diff<0) {diff=new Date(thisyear+1,bmonth,bday).getTime()-today
+				      p.age=thisyear-byear}
 			p.days=Math.floor(diff/1000/60/60/24)
 			p.date=bday+" "+months[bmonth]
-			
+			p.birtyear=byear
 		})
 		this.config.people.sort(function(a,b){return a.days-b.days})
 		
