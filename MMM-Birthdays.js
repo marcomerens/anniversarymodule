@@ -37,13 +37,14 @@ Module.register("MMM-Birthdays", {
 			var bmonth=bdate.getUTCMonth()
 			var bday=bdate.getUTCDate()
 			var byear=bdate.getUTCFullYear()
-			p.age:thisyear-byear
+			p.age=thisyear-byear
 			var diff=new Date(thisyear,bmonth,bday).getTime()-today
 			if (diff<0) {diff=new Date(thisyear+1,bmonth,bday).getTime()-today
 				      p.age=thisyear-byear}
 			p.days=Math.floor(diff/1000/60/60/24)
 			p.date=bday+" "+months[bmonth]
-			p.birtyear=byear
+			p.birthyear=byear
+			p.day=bday
 		})
 		this.config.people.sort(function(a,b){return a.days-b.days})
 		
@@ -52,7 +53,7 @@ Module.register("MMM-Birthdays", {
 
 
 	getTemplate: function () {
-		return "BIRTHDAYS.njk";
+		return "MMM-Birthdays.njk";
 	},
 
 	getTemplateData: function () {

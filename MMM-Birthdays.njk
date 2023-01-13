@@ -3,11 +3,11 @@
 	<table>
 	<thead>
 		<tr>
-			<th>Still days</th>
+			<th>Within</th>
 			<th>Name</th>
-			<th>Becomes </th>
-			<th>On</th>
-			<th>Born in the year</th>
+			<th>will be </th>
+			<th> Birthday</th>
+			
 		</tr>
 	</thead>
 		<tbody>
@@ -17,12 +17,20 @@
 		{% if p.days == 0 %}
 		<td>Today</td>
 		{% else %}
-			<td>{{p.days}}</td>
+			{% if p.day < 10 %}
+			  <td> {{p.days}} days</td>
+			{% else %}
+			  <td>{{p.days}} days</td>
+			{% endif %}
 		{% endif %}
 		<td>{{p.name}}</td>
-		<td>{{p.age}} Year</td>
-		<td> {{p.date}}</td>
-		<td>*.     {{p.birthyear}}</td>
+		<td>  {{p.age}} Year</td>
+		{% if p.day < 10 %}
+		  <td>, born on _{{p.date}}</td>
+		{% else %}
+		 <td>, born on {{p.date}}</td>
+		{% endif %}
+		<td> in {{p.birthyear}}</td>
 		</tr>	
 		{% endfor %}
 		</tbody>
