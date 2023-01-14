@@ -1,10 +1,10 @@
 # Module: MMM-Birthdays, a module to display upcoming birthdays
 
-The MMM-Birthdays modules is derived from the inital developpement BIRTHDAYS created by Marco Merens.
+The MMM-Birthdays modules is derived from the inital development BIRTHDAYS created by Marco Merens.
 
 Essentially it is a workout of the reporting in the display screen.
 
-You can now see, what will be the age on the anniversary of someone and the the year of borning.
+You can now see, what will be the age on the anniversary of someone and his/her year of borning.
 
 The 'BIRTHDAYS' module is a costum module for [MagicMirror](https://github.com/MichMich/MagicMirror). 
 It displays the name, birthday and remaining days of a list of people sorted by whoever is next.
