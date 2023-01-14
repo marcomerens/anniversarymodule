@@ -1,10 +1,4 @@
-# Module: MMM-Birthdays, a module to display upcoming birthdays
-
-The MMM-Birthdays modules is derived from the inital development BIRTHDAYS created by Marco Merens.
-
-Essentially it is a workout of the reporting in the display screen.
-
-You can now see, what will be the age on the anniversary of someone and his/her year of borning.
+# Module: BIRTHDAYS, a module to display upcoming birthdays
 
 The 'BIRTHDAYS' module is a costum module for [MagicMirror](https://github.com/MichMich/MagicMirror). 
 It displays the name, birthday and remaining days of a list of people sorted by whoever is next.
@@ -18,7 +12,7 @@ The dates are recalculated every hour.
 Just pull down this repo and copy it in the modules folder under your Magic Mirror installation folder
 ```
 cd ~/MagicMirror/modules/
-git clone https://github.com/jms3700/anniversarymodule MMM-Birthdays
+git clone https://github.com/marcomerens/anniversarymodule BIRTHDAYS
 cd BIRTHDAYS
 npm i
 ```
@@ -29,7 +23,7 @@ To use this module, add it to the modules array in the `config/config.js` file:
 ````javascript
 modules: [
   {
-    module: 'MMM-Birthdays',
+    module: 'BIRTHDAYS',
     position: 'top_right',  // This can be any of the regions.
     config: {
       // See 'Configuration options' for more information.
