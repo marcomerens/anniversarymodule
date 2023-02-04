@@ -1,0 +1,38 @@
+
+<div>
+	<table>
+	<thead>
+		<tr>
+			<th>Binnen</th>
+			<th>Naam</th>
+			<th>wordt </th>
+			
+			
+		</tr>
+	</thead>
+		<tbody>
+		{% for p in people.slice(0,limit) %}
+		
+		<tr>
+		{% if p.days == 0 %}
+		<td>Vandaag</td>
+		{% else %}
+			{% if p.days < 10 %}
+			  <td>_{{p.days}} dagen</td>
+			{% else %}
+			  <td>{{p.days}} dagen</td>
+			{% endif %}
+		{% endif %}
+		<td>{{p.name}}</td>
+		<td>  {{p.age}} Jaar</td>
+		{% if p.day < 10 %}
+		  <td>, geboren op _{{p.date}}</td>
+		{% else %}
+		 <td>, geboren op {{p.date}}</td>
+		{% endif %}
+		<td> in {{p.birthyear}}</td>
+		</tr>	
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
