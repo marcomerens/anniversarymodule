@@ -4,9 +4,14 @@
 	<thead>
 		<tr>
 			<th>Binnen</th>
+<<<<<<< HEAD
 			<th>jarige</th>
 			<th>wordt    </th>
 			<th>, geboren op </th>
+=======
+			<th>Naam</th>
+			<th>wordt </th>
+>>>>>>> 17456853682dbd8a218138d01f5eb78fd34fda63
 			
 			
 		</tr>
@@ -27,10 +32,18 @@
 		<td>{{p.name}}</td>
 		<td>  {{p.age}} Jaar</td>
 		{% if p.day < 10 %}
+<<<<<<< HEAD
 		  <td>, _{{p.date}} {{p.birthyear}}</td>
 		{% else %}
 		 <td>, {{p.date}} {{p.birthyear}}</td>
 		{% endif %}
+=======
+		  <td>, geboren op _{{p.date}}</td>
+		{% else %}
+		 <td>, geboren op {{p.date}}</td>
+		{% endif %}
+		<td> in {{p.birthyear}}</td>
+>>>>>>> 17456853682dbd8a218138d01f5eb78fd34fda63
 		</tr>	
 		{% endfor %}
 		</tbody>
