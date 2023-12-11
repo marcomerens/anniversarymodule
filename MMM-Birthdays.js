@@ -40,7 +40,7 @@ Module.register("MMM-Birthdays", {
 			p.age=thisyear-byear
 			var diff=new Date(thisyear,bmonth,bday).getTime()-today
 			if (diff<0) {diff=new Date(thisyear+1,bmonth,bday).getTime()-today
-				      p.age=thisyear-byear}
+				      p.age=thisyear-byear+1}
 			p.days=Math.floor(diff/1000/60/60/24)
 			p.date=bday+" "+months[bmonth]
 			p.birthyear=byear
