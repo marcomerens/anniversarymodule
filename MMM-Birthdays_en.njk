@@ -3,11 +3,10 @@
 	<table>
 	<thead>
 		<tr>
-			<th>Binnen</th>
-			<th>jarige</th>
-			<th>wordt    </th>
-			<th>, geboren op </th>
-			
+			<th>Within</th>
+			<th>Name</th>
+			<th>will be </th>
+			<th> Birthday</th>
 			
 		</tr>
 	</thead>
@@ -16,21 +15,22 @@
 		
 		<tr>
 		{% if p.days == 0 %}
-		<td>Vandaag</td>
+		<td>Today</td>
 		{% else %}
 			{% if p.days < 10 %}
-			  <td>_{{p.days}} dagen</td>
+			  <td>_{{p.days}} days</td>
 			{% else %}
-			  <td>{{p.days}} dagen</td>
+			  <td>{{p.days}} days</td>
 			{% endif %}
 		{% endif %}
 		<td>{{p.name}}</td>
-		<td>  {{p.age}} Jaar</td>
+		<td>  {{p.age}} Year</td>
 		{% if p.day < 10 %}
-		  <td>, _{{p.date}} {{p.birthyear}}</td>
+		  <td>, born on _{{p.date}}</td>
 		{% else %}
-		 <td>, {{p.date}} {{p.birthyear}}</td>
+		 <td>, born on {{p.date}}</td>
 		{% endif %}
+		<td> in {{p.birthyear}}</td>
 		</tr>	
 		{% endfor %}
 		</tbody>
