@@ -20,7 +20,7 @@ Derived from [`BIRTHDAYS` (`anniversarymodule`)](https://github.com/marcomerens/
 
 2. Clone the repository:
 
-    git clone https://github.com/<YOUR_GITHUB_USERNAME>/MMM-Birthdays.git
+    git clone https://github.com/jms3700/MMM-Birthdays.git
 
 ## Configuration
 
