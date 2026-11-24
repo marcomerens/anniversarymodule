@@ -1,0 +1,80 @@
+.mmm-birthdays-table {
+	border-collapse: collapse;
+}
+
+.mmm-birthdays-table th,
+.mmm-birthdays-table td {
+	padding: 3px 12px 3px 0;
+	white-space: nowrap;
+}
+
+.mmm-birthdays-table th {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+	padding-bottom: 4px;
+	font-weight: bold;
+}
+
+.mmm-birthdays-table th.days,
+.mmm-birthdays-table td.days {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+
+.mmm-birthdays-table th.name,
+.mmm-birthdays-table td.name {
+	text-align: left;
+}
+
+.mmm-birthdays-table th.age,
+.mmm-birthdays-table td.age {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+
+.mmm-birthdays-table th.date,
+.mmm-birthdays-table td.date {
+	text-align: left;
+	padding-right: 0;
+	font-variant-numeric: tabular-nums;
+}
+
+/* Vaste voorloopruimte voor enkelcijferige aantallen (dagen / leeftijd) */
+.mmm-birthdays .num-single::before {
+	content: "";
+	display: inline-block;
+	width: 0.65em;
+}
+
+/* Dagnummer in geboortedatum altijd rechts uitgelijnd op 2-cijferbreedte */
+.mmm-birthdays .bday-num {
+	display: inline-block;
+	min-width: 1.35em;
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+
+/* Subtiele markering voor verjaardagen op de dag zelf */
+.mmm-birthdays-table tr.is-today {
+	background-color: rgba(255, 215, 100, 0.12);
+}
+
+.mmm-birthdays-table tr.is-today td:first-child {
+	border-left: 3px solid rgba(255, 215, 100, 0.85);
+	padding-left: 6px;
+}
+
+.mmm-birthdays-table tr.is-today td {
+	color: #fff3c4;
+	font-weight: 600;
+}
+
+.mmm-birthdays .today-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.mmm-birthdays .today-icon {
+	font-size: 0.9em;
+	line-height: 1;
+}
