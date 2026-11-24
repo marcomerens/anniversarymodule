@@ -1,80 +1,65 @@
-.mmm-birthdays-table {
-	border-collapse: collapse;
+.mmm-birthdays .mmm-birthdays-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
 }
 
-.mmm-birthdays-table th,
-.mmm-birthdays-table td {
-	padding: 3px 12px 3px 0;
-	white-space: nowrap;
+.mmm-birthdays .mmm-birthdays-table thead th,
+.mmm-birthdays .mmm-birthdays-table th.days,
+.mmm-birthdays .mmm-birthdays-table th.name,
+.mmm-birthdays .mmm-birthdays-table th.age,
+.mmm-birthdays .mmm-birthdays-table th.date {
+  text-align: left !important;
+  font-weight: 600;
+  padding: 6px 14px 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
 }
 
-.mmm-birthdays-table th {
-	border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-	padding-bottom: 4px;
-	font-weight: bold;
+.mmm-birthdays .mmm-birthdays-table tbody td {
+  padding: 8px 14px;
+  vertical-align: middle;
 }
 
-.mmm-birthdays-table th.days,
-.mmm-birthdays-table td.days {
-	text-align: right;
-	font-variant-numeric: tabular-nums;
+.mmm-birthdays .mmm-birthdays-table tbody td.days,
+.mmm-birthdays .mmm-birthdays-table tbody td.name,
+.mmm-birthdays .mmm-birthdays-table tbody td.age,
+.mmm-birthdays .mmm-birthdays-table tbody td.date {
+  text-align: left;
+  white-space: nowrap;
 }
 
-.mmm-birthdays-table th.name,
-.mmm-birthdays-table td.name {
-	text-align: left;
+.mmm-birthdays .mmm-birthdays-table .bday-num {
+  display: inline-block;
+  min-width: 1.5em;
+  margin-right: 4px;
 }
 
-.mmm-birthdays-table th.age,
-.mmm-birthdays-table td.age {
-	text-align: right;
-	font-variant-numeric: tabular-nums;
+.mmm-birthdays .mmm-birthdays-table .bday-month {
+  margin-right: 6px;
 }
 
-.mmm-birthdays-table th.date,
-.mmm-birthdays-table td.date {
-	text-align: left;
-	padding-right: 0;
-	font-variant-numeric: tabular-nums;
+.mmm-birthdays .mmm-birthdays-table .num-single {
+  font-weight: 600;
 }
 
-/* Vaste voorloopruimte voor enkelcijferige aantallen (dagen / leeftijd) */
-.mmm-birthdays .num-single::before {
-	content: "";
-	display: inline-block;
-	width: 0.65em;
+.mmm-birthdays .mmm-birthdays-table tr.is-today,
+.mmm-birthdays .mmm-birthdays-table tr.is-today td,
+.mmm-birthdays .mmm-birthdays-table tr.is-today td.days,
+.mmm-birthdays .mmm-birthdays-table tr.is-today td.name,
+.mmm-birthdays .mmm-birthdays-table tr.is-today td.age,
+.mmm-birthdays .mmm-birthdays-table tr.is-today td.date,
+.mmm-birthdays .mmm-birthdays-table tr.is-today span {
+  color: #ff4d4f !important;
+  font-weight: 700;
 }
 
-/* Dagnummer in geboortedatum altijd rechts uitgelijnd op 2-cijferbreedte */
-.mmm-birthdays .bday-num {
-	display: inline-block;
-	min-width: 1.35em;
-	text-align: right;
-	font-variant-numeric: tabular-nums;
-}
-
-/* Subtiele markering voor verjaardagen op de dag zelf */
-.mmm-birthdays-table tr.is-today {
-	background-color: rgba(255, 215, 100, 0.12);
-}
-
-.mmm-birthdays-table tr.is-today td:first-child {
-	border-left: 3px solid rgba(255, 215, 100, 0.85);
-	padding-left: 6px;
-}
-
-.mmm-birthdays-table tr.is-today td {
-	color: #fff3c4;
-	font-weight: 600;
-}
-
-.mmm-birthdays .today-badge {
-	display: inline-flex;
-	align-items: center;
-	gap: 5px;
-}
-
-.mmm-birthdays .today-icon {
-	font-size: 0.9em;
-	line-height: 1;
+.mmm-birthdays .mmm-birthdays-table tr.is-today .today-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #dc2626;
+  color: #ffffff !important;
+  font-weight: 700;
 }
