@@ -21,8 +21,8 @@ Module.register("MMM-Birthdays", {
 
   getTranslations: function () {
     return {
-      en: "locales/en.js",
-      nl: "locales/nl.js"
+      en: "locales/en.json",
+      nl: "locales/nl.json"
     };
   },
 
