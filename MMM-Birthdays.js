@@ -57,13 +57,24 @@ Module.register("MMM-Birthdays", {
   },
 
   getLocaleObject: function () {
-    const lang = (typeof config !== "undefined" && config.language ? config.language : "en")
-      .toLowerCase()
-      .slice(0, 2);
     const locales = typeof window !== "undefined" && window.MMMBirthdaysLocales
       ? window.MMMBirthdaysLocales
       : {};
-    return locales[lang] || locales.en || {};
+
+    const rawLang =
+      (typeof config !== "undefined" && config && config.language) ||
+      (typeof window !== "undefined" && window.config && window.config.language) ||
+      (this.config && this.config.language) ||
+      (typeof document !== "undefined" && document.documentElement && document.documentElement.lang) ||
+      (typeof navigator !== "undefined" && navigator.language) ||
+      "";
+
+    const lang = String(rawLang).toLowerCase().slice(0, 2);
+
+    if (lang && locales[lang]) {
+      return locales[lang];
+    }
+    return locales.nl || locales.en || {};
   },
 
   getLabel: function (key) {
