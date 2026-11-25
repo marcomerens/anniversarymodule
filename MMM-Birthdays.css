@@ -38,10 +38,6 @@
   margin-right: 6px;
 }
 
-.mmm-birthdays .mmm-birthdays-table .num-single {
-  font-weight: 600;
-}
-
 .mmm-birthdays .mmm-birthdays-table tr.is-today,
 .mmm-birthdays .mmm-birthdays-table tr.is-today td,
 .mmm-birthdays .mmm-birthdays-table tr.is-today td.days,
@@ -49,7 +45,7 @@
 .mmm-birthdays .mmm-birthdays-table tr.is-today td.age,
 .mmm-birthdays .mmm-birthdays-table tr.is-today td.date,
 .mmm-birthdays .mmm-birthdays-table tr.is-today span {
-  color: #ff4d4f !important;
+  color: #ffd000 !important;
   font-weight: 700;
 }
 
@@ -59,7 +55,7 @@
   gap: 6px;
   padding: 2px 8px;
   border-radius: 999px;
-  background: #dc2626;
-  color: #ffffff !important;
+  background: #eab308;
+  color: #111827 !important;
   font-weight: 700;
 }
