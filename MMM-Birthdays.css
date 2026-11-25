@@ -2,7 +2,6 @@
   width: 100%;
   border-collapse: collapse;
   font-variant-numeric: tabular-nums;
-  font-size: 2.325rem;
 }
 
 .mmm-birthdays .mmm-birthdays-table thead th,
@@ -11,14 +10,12 @@
 .mmm-birthdays .mmm-birthdays-table th.age,
 .mmm-birthdays .mmm-birthdays-table th.date {
   text-align: left !important;
-  font-size: 2.325rem;
   font-weight: 600;
   padding: 15px 21px 21px 21px;
   border-bottom: 1.5px solid rgba(255, 255, 255, 0.35);
 }
 
 .mmm-birthdays .mmm-birthdays-table tbody td {
-  font-size: 2.325rem;
   padding: 19.5px 21px;
   vertical-align: middle;
 }
@@ -58,6 +55,5 @@
   align-items: center;
   gap: 9px;
   color: #ffd000 !important;
-  font-size: 2.325rem;
   font-weight: 700;
 }
