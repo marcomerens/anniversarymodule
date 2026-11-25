@@ -1,165 +1,203 @@
-/* Magic Mirror
- * Module: MMM-Birthdays
- *
- * By Jean-Marie Straetemans
- * Derived from BIRTHDAYS by Marco Merens
- * MIT Licensed.
- */
 Module.register("MMM-Birthdays", {
-	defaults: {
-		limit: 4,
-		showHeader: true,
-		people: [
-			{ name: "Marco", birthdate: "1973-12-30" }
-		]
-	},
+  defaults: {
+    limit: 5,
+    showHeader: true,
+    updateInterval: 60 * 60 * 1000,
+    people: [],
+    headerDays: "Within",
+    headerName: "Birthday",
+    headerAge: "Will be",
+    headerDate: "Born on",
+    today: "Today",
+    day: "day",
+    days: "days",
+    yearSuffix: "Years",
+    months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  },
 
-	supportedLanguages: ["nl", "en"],
+  getStyles: function () {
+    return ["MMM-Birthdays.css"];
+  },
 
-	getStyles: function () {
-		return ["MMM-Birthdays.css"];
-	},
+  getTranslations: function () {
+    return {
+      en: "locales/en.js",
+      nl: "locales/nl.js"
+    };
+  },
 
-	getTargetLangCode: function () {
-		const mmLang = (typeof config !== "undefined" && config.language ? config.language : "en").toLowerCase();
-		const code = mmLang.split("-")[0];
-		return this.supportedLanguages.includes(code) ? code : "en";
-	},
+  start: function () {
+    this.scheduleUpdate();
+  },
 
-	loadLocaleFile: function (langCode) {
-		const url = this.file(`locales/${langCode}.js`);
-		return fetch(url)
-			.then(function (response) {
-				if (!response.ok) {
-					throw new Error(`HTTP ${response.status} bij laden van ${url}`);
-				}
-				return response.text();
-			})
-			.then(function (scriptText) {
-				const scriptEl = document.createElement("script");
-				scriptEl.textContent = scriptText;
-				document.head.appendChild(scriptEl);
-				document.head.removeChild(scriptEl);
-				return window.MMMBirthdaysLocales && window.MMMBirthdaysLocales[langCode];
-			});
-	},
+  scheduleUpdate: function () {
+    setInterval(() => {
+      this.updateDom(300);
+    }, this.config.updateInterval);
+  },
 
-	start: async function () {
-		this.upcomingPeople = [];
-		const targetLang = this.getTargetLangCode();
+  parseBirthdate: function (dateStr) {
+    if (typeof dateStr !== "string") return null;
+    const parts = dateStr.trim().split("-");
+    if (parts.length !== 3) return null;
 
-		try {
-			this.activeLocale = await this.loadLocaleFile(targetLang);
-		} catch (err) {
-			Log.warn(`[${this.name}] Kon taalbestand '${targetLang}' niet laden, terugval naar 'en': ${err.message}`);
-			try {
-				this.activeLocale = await this.loadLocaleFile("en");
-			} catch (fallbackErr) {
-				Log.error(`[${this.name}] Kon ook 'en' taalbestand niet laden: ${fallbackErr.message}`);
-				this.activeLocale = null;
-			}
-		}
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10);
+    const day = parseInt(parts[2], 10);
 
-		this.calculate();
-		this.updateDom();
+    if (!year || month < 1 || month > 12 || day < 1 || day > 31) return null;
 
-		const self = this;
-		setInterval(function () {
-			self.calculate();
-			self.updateDom();
-		}, 60 * 60 * 1000); // Elk uur bijwerken
-	},
+    const dt = new Date(year, month - 1, day);
+    if (
+      dt.getFullYear() !== year ||
+      dt.getMonth() !== month - 1 ||
+      dt.getDate() !== day
+    ) {
+      return null;
+    }
 
-	parseBirthdate: function (dateStr) {
-		if (typeof dateStr !== "string") {
-			return null;
-		}
-		const parts = dateStr.trim().split("-");
-		if (parts.length !== 3) {
-			return null;
-		}
-		const year = parseInt(parts[0], 10);
-		const month = parseInt(parts[1], 10);
-		const day = parseInt(parts[2], 10);
-		if (!year || month < 1 || month > 12 || day < 1 || day > 31) {
-			return null;
-		}
-		const dt = new Date(year, month - 1, day);
-		if (
-			dt.getFullYear() !== year ||
-			dt.getMonth() !== month - 1 ||
-			dt.getDate() !== day
-		) {
-			return null;
-		}
-		return { year, month: month - 1, day };
-	},
+    return { year, month: month - 1, day };
+  },
 
-	calculate: function () {
-		const locale = this.activeLocale || {
-			months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-			today: "Today",
-			day: "day",
-			days: "days",
-			yearSuffix: "Years",
-			bornOn: "born on",
-			inYear: "in",
-			noBirthdays: "No birthdays configured."
-		};
-		const months = locale.months;
+  getLabel: function (key) {
+    const translated = this.translate(key);
+    if (translated && translated !== key) {
+      return translated;
+    }
+    return this.config[key] || key;
+  },
 
-		const now = new Date();
-		const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-		const currentYear = todayStart.getFullYear();
-		const msPerDay = 24 * 60 * 60 * 1000;
+  getMonths: function () {
+    const translatedMonths = this.translate("months");
+    if (Array.isArray(translatedMonths) && translatedMonths.length === 12) {
+      return translatedMonths;
+    }
+    return this.config.months;
+  },
 
-		const list = Array.isArray(this.config.people) ? this.config.people : [];
-		const calculated = [];
+  calculateUpcoming: function () {
+    const now = new Date();
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const currentYear = todayStart.getFullYear();
+    const msPerDay = 24 * 60 * 60 * 1000;
+    const months = this.getMonths();
 
-		for (const person of list) {
-			const parsed = this.parseBirthdate(person.birthdate);
-			if (!parsed) {
-				Log.warn(`[${this.name}] Ongeldige geboortedatum voor ${person.name || "onbekend"}: ${person.birthdate}`);
-				continue;
-			}
+    const list = [];
 
-			let nextBirthday = new Date(currentYear, parsed.month, parsed.day);
-			if (nextBirthday < todayStart) {
-				nextBirthday = new Date(currentYear + 1, parsed.month, parsed.day);
-			}
+    for (const person of this.config.people) {
+      const parsed = this.parseBirthdate(person.birthdate);
+      if (!parsed) continue;
 
-			const days = Math.round((nextBirthday - todayStart) / msPerDay);
-			const age = nextBirthday.getFullYear() - parsed.year;
-			const monthName = months[parsed.month] || "";
+      let nextBirthday = new Date(currentYear, parsed.month, parsed.day);
+      if (nextBirthday < todayStart) {
+        nextBirthday = new Date(currentYear + 1, parsed.month, parsed.day);
+      }
 
-			calculated.push({
-				name: person.name || "",
-				days: days,
-				isToday: days === 0,
-				age: age,
-				day: parsed.day,
-				monthName: monthName,
-				date: `${parsed.day} ${monthName}`,
-				birthyear: parsed.year
-			});
-		}
+      const days = Math.round((nextBirthday - todayStart) / msPerDay);
+      const age = nextBirthday.getFullYear() - parsed.year;
+      const monthName = months[parsed.month] || "";
 
-		calculated.sort(function (a, b) {
-			return a.days - b.days || a.name.localeCompare(b.name);
-		});
+      list.push({
+        name: person.name || "",
+        days: days,
+        isToday: days === 0,
+        age: age,
+        day: parsed.day,
+        monthName: monthName,
+        birthyear: parsed.year
+      });
+    }
 
-		this.upcomingPeople = calculated.slice(0, this.config.limit);
-	},
+    list.sort((a, b) => a.days - b.days || a.name.localeCompare(b.name));
+    return list.slice(0, this.config.limit);
+  },
 
-	getTemplate: function () {
-		return "MMM-Birthdays.njk";
-	},
+  getDom: function () {
+    const wrapper = document.createElement("div");
+    wrapper.className = "mmm-birthdays";
 
-	getTemplateData: function () {
-		return {
-			people: this.upcomingPeople,
-			showHeader: this.config.showHeader,
-			lang: this.activeLocale || {}
-		};
-	}
+    const items = this.calculateUpcoming();
+    if (items.length === 0) {
+      wrapper.innerHTML = "<div class='dimmed light small'>No birthdays configured.</div>";
+      return wrapper;
+    }
+
+    const table = document.createElement("table");
+    table.className = "mmm-birthdays-table";
+
+    if (this.config.showHeader) {
+      const thead = document.createElement("thead");
+      const headRow = document.createElement("tr");
+
+      const headers = [
+        { className: "days", text: this.getLabel("headerDays") },
+        { className: "name", text: this.getLabel("headerName") },
+        { className: "age", text: this.getLabel("headerAge") },
+        { className: "date", text: this.getLabel("headerDate") }
+      ];
+
+      for (const h of headers) {
+        const th = document.createElement("th");
+        th.className = h.className;
+        th.textContent = h.text;
+        headRow.appendChild(th);
+      }
+
+      thead.appendChild(headRow);
+      table.appendChild(thead);
+    }
+
+    const tbody = document.createElement("tbody");
+
+    for (const p of items) {
+      const tr = document.createElement("tr");
+      if (p.isToday) {
+        tr.className = "is-today";
+      }
+
+      const tdDays = document.createElement("td");
+      tdDays.className = "days";
+      if (p.isToday) {
+        const badge = document.createElement("span");
+        badge.className = "today-badge";
+        badge.innerHTML = `<span aria-hidden="true">🎂</span><span>${this.getLabel("today")}</span>`;
+        tdDays.appendChild(badge);
+      } else if (p.days === 1) {
+        tdDays.textContent = `1 ${this.getLabel("day")}`;
+      } else {
+        tdDays.textContent = `${p.days} ${this.getLabel("days")}`;
+      }
+
+      const tdName = document.createElement("td");
+      tdName.className = "name";
+      tdName.textContent = p.name;
+
+      const tdAge = document.createElement("td");
+      tdAge.className = "age";
+      tdAge.textContent = `${p.age} ${this.getLabel("yearSuffix")}`;
+
+      const tdDate = document.createElement("td");
+      tdDate.className = "date";
+
+      const spanDay = document.createElement("span");
+      spanDay.className = "bday-num";
+      spanDay.textContent = p.day;
+
+      const spanMonth = document.createElement("span");
+      spanMonth.className = "bday-month";
+      spanMonth.textContent = p.monthName;
+
+      const spanYear = document.createElement("span");
+      spanYear.className = "bday-year";
+      spanYear.textContent = p.birthyear;
+
+      tdDate.append(spanDay, spanMonth, spanYear);
+      tr.append(tdDays, tdName, tdAge, tdDate);
+      tbody.appendChild(tr);
+    }
+
+    table.appendChild(tbody);
+    wrapper.appendChild(table);
+    return wrapper;
+  }
 });
