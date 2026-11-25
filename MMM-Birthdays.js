@@ -59,19 +59,51 @@ Module.register("MMM-Birthdays", {
     return { year, month: month - 1, day };
   },
 
+  getLocaleObject: function () {
+    const lang = (typeof config !== "undefined" && config.language ? config.language : "en")
+      .toLowerCase()
+      .slice(0, 2);
+    const locales = typeof window !== "undefined" && window.MMMBirthdaysLocales
+      ? window.MMMBirthdaysLocales
+      : {};
+    return locales[lang] || locales.en || {};
+  },
+
   getLabel: function (key) {
+    const locale = this.getLocaleObject();
+    const aliasMap = {
+      headerDays: ["headerDays", "headerWithin"],
+      headerName: ["headerName"],
+      headerAge: ["headerAge", "headerWillBe"],
+      headerDate: ["headerDate", "headerBirthday"]
+    };
+    const candidates = aliasMap[key] || [key];
+
+    for (const k of candidates) {
+      if (locale[k] !== undefined && locale[k] !== "") {
+        return locale[k];
+      }
+    }
+
     const translated = this.translate(key);
     if (translated && translated !== key) {
       return translated;
     }
+
     return this.config[key] || key;
   },
 
   getMonths: function () {
+    const locale = this.getLocaleObject();
+    if (Array.isArray(locale.months) && locale.months.length === 12) {
+      return locale.months;
+    }
+
     const translatedMonths = this.translate("months");
     if (Array.isArray(translatedMonths) && translatedMonths.length === 12) {
       return translatedMonths;
     }
+
     return this.config.months;
   },
 
