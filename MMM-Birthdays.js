@@ -1,203 +1,124 @@
 Module.register("MMM-Birthdays", {
   defaults: {
-    limit: 5,
+    limit: 4,
     showHeader: true,
     updateInterval: 60 * 60 * 1000,
-    people: [],
-    headerDays: "Within",
-    headerName: "Birthday",
-    headerAge: "Will be",
-    headerDate: "Born on",
-    today: "Today",
-    day: "day",
-    days: "days",
-    yearSuffix: "Years",
-    months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    people: [
+      { name: "Marco", birthdate: "1973-12-30" },
+      { name: "Anna", birthdate: "1985-04-12" }
+    ]
   },
 
-  getStyles: function () {
+  getStyles() {
     return ["MMM-Birthdays.css"];
   },
 
-  getTranslations: function () {
+  getTemplate() {
+    return "MMM-Birthdays.njk";
+  },
+
+  getTranslations() {
     return {
-      en: "locales/en.json",
-      nl: "locales/nl.json"
+      nl: "locales/nl.json",
+      en: "locales/en.json"
     };
   },
 
-  start: function () {
+  start() {
     this.scheduleUpdate();
   },
 
-  scheduleUpdate: function () {
+  scheduleUpdate() {
     setInterval(() => {
-      this.updateDom(300);
+      this.updateDom();
     }, this.config.updateInterval);
   },
 
-  parseBirthdate: function (dateStr) {
-    if (typeof dateStr !== "string") return null;
-    const parts = dateStr.trim().split("-");
-    if (parts.length !== 3) return null;
+  getLocaleObject() {
+    const fallbackMonths = ["Jan", "Feb", "Mrt", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"];
+    const rawMonths = this.translate("months");
+    const months = Array.isArray(rawMonths) && rawMonths.length === 12
+      ? rawMonths
+      : (typeof rawMonths === "string" && rawMonths.includes(",")
+          ? rawMonths.split(",").map((s) => s.trim())
+          : fallbackMonths);
 
-    const year = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10);
-    const day = parseInt(parts[2], 10);
+    const pick = (primaryKey, fallbackKey, defaultVal) => {
+      const v1 = this.translate(primaryKey);
+      if (v1 && v1 !== primaryKey) return v1;
+      if (fallbackKey) {
+        const v2 = this.translate(fallbackKey);
+        if (v2 && v2 !== fallbackKey) return v2;
+      }
+      return defaultVal;
+    };
 
-    if (!year || month < 1 || month > 12 || day < 1 || day > 31) return null;
-
-    const dt = new Date(year, month - 1, day);
-    if (
-      dt.getFullYear() !== year ||
-      dt.getMonth() !== month - 1 ||
-      dt.getDate() !== day
-    ) {
-      return null;
-    }
-
-    return { year, month: month - 1, day };
+    return {
+      headerWithin: pick("headerWithin", "headerDays", "Binnen"),
+      headerName: pick("headerName", "headerName", "Jarige"),
+      headerWillBe: pick("headerWillBe", "headerAge", "Wordt"),
+      headerBirthday: pick("headerBirthday", "headerDate", "Geboren op"),
+      today: pick("today", "today", "Vandaag"),
+      day: pick("day", "day", "dag"),
+      days: pick("days", "days", "dagen"),
+      yearSuffix: pick("yearSuffix", "yearSuffix", "Jaar"),
+      inYear: pick("inYear", null, ""),
+      noBirthdays: pick("noBirthdays", null, "Geen verjaardagen"),
+      months
+    };
   },
 
-  getLabel: function (key) {
-    const translated = this.translate(key);
-    if (translated && translated !== key) {
-      return translated;
-    }
-    return this.config[key] || key;
-  },
-
-  getMonths: function () {
-    const translatedMonths = this.translate("months");
-    if (Array.isArray(translatedMonths) && translatedMonths.length === 12) {
-      return translatedMonths;
-    }
-    return this.config.months;
-  },
-
-  calculateUpcoming: function () {
+  getTemplateData() {
+    const lang = this.getLocaleObject();
     const now = new Date();
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const currentYear = todayStart.getFullYear();
     const msPerDay = 24 * 60 * 60 * 1000;
-    const months = this.getMonths();
 
-    const list = [];
+    const list = Array.isArray(this.config.people)
+      ? this.config.people
+      : (Array.isArray(this.config.birthdays) ? this.config.birthdays : []);
 
-    for (const person of this.config.people) {
-      const parsed = this.parseBirthdate(person.birthdate);
-      if (!parsed) continue;
+    const people = list
+      .map((entry) => {
+        const rawDate = entry.birthdate || entry.date || entry.birthday || "";
+        const match = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/.exec(String(rawDate).trim());
+        if (!match) return null;
 
-      let nextBirthday = new Date(currentYear, parsed.month, parsed.day);
-      if (nextBirthday < todayStart) {
-        nextBirthday = new Date(currentYear + 1, parsed.month, parsed.day);
-      }
+        const birthYear = parseInt(match[1], 10);
+        const birthMonth = parseInt(match[2], 10);
+        const birthDay = parseInt(match[3], 10);
 
-      const days = Math.round((nextBirthday - todayStart) / msPerDay);
-      const age = nextBirthday.getFullYear() - parsed.year;
-      const monthName = months[parsed.month] || "";
+        if (birthMonth < 1 || birthMonth > 12 || birthDay < 1 || birthDay > 31) {
+          return null;
+        }
 
-      list.push({
-        name: person.name || "",
-        days: days,
-        isToday: days === 0,
-        age: age,
-        day: parsed.day,
-        monthName: monthName,
-        birthyear: parsed.year
-      });
-    }
+        let nextBirthday = new Date(todayStart.getFullYear(), birthMonth - 1, birthDay);
+        if (nextBirthday < todayStart) {
+          nextBirthday = new Date(todayStart.getFullYear() + 1, birthMonth - 1, birthDay);
+        }
 
-    list.sort((a, b) => a.days - b.days || a.name.localeCompare(b.name));
-    return list.slice(0, this.config.limit);
-  },
+        const days = Math.round((nextBirthday - todayStart) / msPerDay);
+        const age = nextBirthday.getFullYear() - birthYear;
+        const monthName = `${lang.months[birthMonth - 1] || String(birthMonth).padStart(2, "0")} `;
 
-  getDom: function () {
-    const wrapper = document.createElement("div");
-    wrapper.className = "mmm-birthdays";
+        return {
+          name: entry.name || "",
+          days,
+          isToday: days === 0,
+          age,
+          day: `${birthDay} `,
+          monthName,
+          birthyear: birthYear
+        };
+      })
+      .filter((item) => item !== null)
+      .sort((a, b) => a.days - b.days)
+      .slice(0, this.config.limit || 4);
 
-    const items = this.calculateUpcoming();
-    if (items.length === 0) {
-      wrapper.innerHTML = "<div class='dimmed light small'>No birthdays configured.</div>";
-      return wrapper;
-    }
-
-    const table = document.createElement("table");
-    table.className = "mmm-birthdays-table";
-
-    if (this.config.showHeader) {
-      const thead = document.createElement("thead");
-      const headRow = document.createElement("tr");
-
-      const headers = [
-        { className: "days", text: this.getLabel("headerDays") },
-        { className: "name", text: this.getLabel("headerName") },
-        { className: "age", text: this.getLabel("headerAge") },
-        { className: "date", text: this.getLabel("headerDate") }
-      ];
-
-      for (const h of headers) {
-        const th = document.createElement("th");
-        th.className = h.className;
-        th.textContent = h.text;
-        headRow.appendChild(th);
-      }
-
-      thead.appendChild(headRow);
-      table.appendChild(thead);
-    }
-
-    const tbody = document.createElement("tbody");
-
-    for (const p of items) {
-      const tr = document.createElement("tr");
-      if (p.isToday) {
-        tr.className = "is-today";
-      }
-
-      const tdDays = document.createElement("td");
-      tdDays.className = "days";
-      if (p.isToday) {
-        const badge = document.createElement("span");
-        badge.className = "today-badge";
-        badge.innerHTML = `<span aria-hidden="true">🎂</span><span>${this.getLabel("today")}</span>`;
-        tdDays.appendChild(badge);
-      } else if (p.days === 1) {
-        tdDays.textContent = `1 ${this.getLabel("day")}`;
-      } else {
-        tdDays.textContent = `${p.days} ${this.getLabel("days")}`;
-      }
-
-      const tdName = document.createElement("td");
-      tdName.className = "name";
-      tdName.textContent = p.name;
-
-      const tdAge = document.createElement("td");
-      tdAge.className = "age";
-      tdAge.textContent = `${p.age} ${this.getLabel("yearSuffix")}`;
-
-      const tdDate = document.createElement("td");
-      tdDate.className = "date";
-
-      const spanDay = document.createElement("span");
-      spanDay.className = "bday-num";
-      spanDay.textContent = p.day;
-
-      const spanMonth = document.createElement("span");
-      spanMonth.className = "bday-month";
-      spanMonth.textContent = p.monthName;
-
-      const spanYear = document.createElement("span");
-      spanYear.className = "bday-year";
-      spanYear.textContent = p.birthyear;
-
-      tdDate.append(spanDay, spanMonth, spanYear);
-      tr.append(tdDays, tdName, tdAge, tdDate);
-      tbody.appendChild(tr);
-    }
-
-    table.appendChild(tbody);
-    wrapper.appendChild(table);
-    return wrapper;
+    return {
+      showHeader: this.config.showHeader !== false,
+      lang,
+      people
+    };
   }
 });
