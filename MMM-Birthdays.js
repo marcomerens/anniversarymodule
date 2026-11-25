@@ -19,11 +19,8 @@ Module.register("MMM-Birthdays", {
     return ["MMM-Birthdays.css"];
   },
 
-  getTranslations: function () {
-    return {
-      en: "locales/en.js",
-      nl: "locales/nl.js"
-    };
+  getScripts: function () {
+    return ["locales/en.js", "locales/nl.js"];
   },
 
   start: function () {
@@ -85,11 +82,6 @@ Module.register("MMM-Birthdays", {
       }
     }
 
-    const translated = this.translate(key);
-    if (translated && translated !== key) {
-      return translated;
-    }
-
     return this.config[key] || key;
   },
 
@@ -97,11 +89,6 @@ Module.register("MMM-Birthdays", {
     const locale = this.getLocaleObject();
     if (Array.isArray(locale.months) && locale.months.length === 12) {
       return locale.months;
-    }
-
-    const translatedMonths = this.translate("months");
-    if (Array.isArray(translatedMonths) && translatedMonths.length === 12) {
-      return translatedMonths;
     }
 
     return this.config.months;
