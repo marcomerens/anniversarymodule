@@ -2,6 +2,7 @@
   width: 100%;
   border-collapse: collapse;
   font-variant-numeric: tabular-nums;
+  font-size: 2.325rem;
 }
 
 .mmm-birthdays .mmm-birthdays-table thead th,
@@ -10,13 +11,15 @@
 .mmm-birthdays .mmm-birthdays-table th.age,
 .mmm-birthdays .mmm-birthdays-table th.date {
   text-align: left !important;
+  font-size: 2.325rem;
   font-weight: 600;
-  padding: 6px 14px 10px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 15px 21px 21px 21px;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.35);
 }
 
 .mmm-birthdays .mmm-birthdays-table tbody td {
-  padding: 8px 14px;
+  font-size: 2.325rem;
+  padding: 19.5px 21px;
   vertical-align: middle;
 }
 
@@ -31,11 +34,11 @@
 .mmm-birthdays .mmm-birthdays-table .bday-num {
   display: inline-block;
   min-width: 1.5em;
-  margin-right: 4px;
+  margin-right: 6px;
 }
 
 .mmm-birthdays .mmm-birthdays-table .bday-month {
-  margin-right: 6px;
+  margin-right: 9px;
 }
 
 .mmm-birthdays .mmm-birthdays-table tr.is-today,
@@ -52,10 +55,8 @@
 .mmm-birthdays .mmm-birthdays-table tr.is-today .today-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: #eab308;
-  color: #111827 !important;
+  gap: 9px;
+  color: #ffd000 !important;
+  font-size: 2.325rem;
   font-weight: 700;
 }
