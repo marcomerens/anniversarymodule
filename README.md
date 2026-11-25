@@ -9,10 +9,10 @@ Derived from [`BIRTHDAYS` (`anniversarymodule`)](https://github.com/marcomerens/
 ## Features
 
 - Automatically sorts upcoming birthdays and limits the number of shown entries (`limit`).
-- Highlights birthdays occurring today (`isToday`) with a subtle cake icon and accent styling.
-- Displays `Today`, `1 day` / `1 dag`, or `<n> days` / `<n> dagen`.
+- Highlights birthdays occurring today (`isToday`) with a cake icon (`🎂`) and gold accent styling (`#ffd000`).
+- Displays `Vandaag` / `Today`, `1 dag` / `1 day`, or `<n> dagen` / `<n> days`.
 - Shows the age the person will reach on their next birthday and their birth year.
-- Uses separate locale files in `locales/` (`nl.js`, `en.js`) based on MagicMirror's global `config.language` setting (with fallback to `en`).
+- Uses separate JSON locale files in `locales/` (`nl.json`, `en.json`) via `getTranslations()` based on MagicMirror's global `config.language` setting.
 
 ## Installation
 
@@ -29,16 +29,16 @@ Derived from [`BIRTHDAYS` (`anniversarymodule`)](https://github.com/marcomerens/
 Add the module to your `~/MagicMirror/config/config.js` file:
 
     {
-    	module: "MMM-Birthdays",
-    	position: "top_right",
-    	config: {
-    		limit: 4,
-    		showHeader: true,
-    		people: [
-    			{ name: "Marco", birthdate: "1973-12-30" },
-    			{ name: "Anna", birthdate: "1985-04-12" }
-    		]
-    	}
+        module: "MMM-Birthdays",
+        position: "top_right",
+        config: {
+                limit: 4,
+                showHeader: true,
+                people: [
+                        { name: "Marco", birthdate: "1973-12-30" },
+                        { name: "Anna", birthdate: "1985-04-12" }
+                ]
+        }
     }
 
 ### Configuration Options
@@ -51,16 +51,16 @@ Add the module to your `~/MagicMirror/config/config.js` file:
 
 ## Adding or Editing Languages
 
-Language texts and month abbreviations live in separate files inside `locales/`:
+Language texts and month abbreviations are stored in JSON files inside `locales/`:
 
-- `locales/nl.js` (used when MagicMirror's `config.language` starts with `nl`, e.g. `nl` or `nl-be`)
-- `locales/en.js` (default fallback for other languages)
+- `locales/nl.json` (Dutch)
+- `locales/en.json` (English)
 
-To add another language (for example `fr.js`):
+To add another language (for example `fr`):
 
-1. Copy `locales/en.js` to `locales/fr.js`.
-2. Translate the strings and month names inside `window.MMMBirthdaysLocales.fr`.
-3. Add `"fr"` to `supportedLanguages` in `MMM-Birthdays.js`.
+1. Copy `locales/en.json` to `locales/fr.json`.
+2. Translate the strings and `months` array inside `locales/fr.json`.
+3. Add `"fr"` to `getTranslations()` in `MMM-Birthdays.js`.
 
 ## License
 
