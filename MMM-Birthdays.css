@@ -34,7 +34,8 @@
 .mmm-birthdays .mmm-birthdays-table .bday-num {
   display: inline-block;
   min-width: 1.5em;
-  margin-right: 6px;
+  text-align: right;
+  margin-right: 10px;
 }
 
 .mmm-birthdays .mmm-birthdays-table .bday-month {
