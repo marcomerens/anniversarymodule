@@ -1,38 +1,45 @@
-
-<div>
-	<table>
-	<thead>
-		<tr>
-			<th>Within</th>
-			<th>Name</th>
-			<th>will be </th>
-			<th> Birthday</th>
-			
-		</tr>
-	</thead>
-		<tbody>
-		{% for p in people.slice(0,limit) %}
-		
-		<tr>
-		{% if p.days == 0 %}
-		<td>Today</td>
-		{% else %}
-			{% if p.day < 10 %}
-			  <td> {{p.days}} days</td>
-			{% else %}
-			  <td>{{p.days}} days</td>
-			{% endif %}
-		{% endif %}
-		<td>{{p.name}}</td>
-		<td>  {{p.age}} Year</td>
-		{% if p.day < 10 %}
-		  <td>, born on _{{p.date}}</td>
-		{% else %}
-		 <td>, born on {{p.date}}</td>
-		{% endif %}
-		<td> in {{p.birthyear}}</td>
-		</tr>	
-		{% endfor %}
-		</tbody>
-	</table>
+<div class="mmm-birthdays">
+        {% if people and people.length > 0 %}
+                <table class="mmm-birthdays-table">
+                        {% if showHeader %}
+                                <thead>
+                                        <tr>
+                                                <th class="days">{{ lang.headerWithin }}</th>
+                                                <th class="name">{{ lang.headerName }}</th>
+                                                <th class="age">{{ lang.headerWillBe }}</th>
+                                                <th class="date">{{ lang.headerBirthday }}</th>
+                                        </tr>
+                                </thead>
+                        {% endif %}
+                        <tbody>
+                                {% for p in people %}
+                                        <tr class="{% if p.isToday %}is-today{% endif %}">
+                                                <td class="days">
+                                                        {% if p.isToday %}
+                                                                <span class="today-badge">
+                                                                        <span class="today-icon" aria-hidden="true">🎂</span>
+                                                                        <span>{{ lang.today }}</span>
+                                                                </span>
+                                                        {% elif p.days == 1 %}
+                                                                <span class="num-single">1</span> {{ lang.day }}
+                                                        {% else %}
+                                                                <span class="{% if p.days < 10 %}num-single{% endif %}">{{ p.days }}</span> {{ lang.days }}
+                                                        {% endif %}
+                                                </td>
+                                                <td class="name">{{ p.name }}</td>
+                                                <td class="age">
+                                                        <span class="{% if p.age < 10 %}num-single{% endif %}">{{ p.age }}</span> {{ lang.yearSuffix }}
+                                                </td>
+                                                <td class="date">
+                                                        <span class="bday-num">{{ p.day }}</span>
+                                                        <span class="bday-month">{{ p.monthName }}</span>
+                                                        <span class="bday-year">{% if lang.inYear %}{{ lang.inYear }} {% endif %}{{ p.birthyear }}</span>
+                                                </td>
+                                        </tr>
+                                {% endfor %}
+                        </tbody>
+                </table>
+        {% else %}
+                <div class="dimmed small">{{ lang.noBirthdays }}</div>
+        {% endif %}
 </div>

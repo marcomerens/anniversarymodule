@@ -1,0 +1,57 @@
+.mmm-birthdays {
+  font-size: 1.5em;
+  line-height: 1.25;
+}
+
+.mmm-birthdays-table {
+  border-collapse: collapse;
+  width: auto;
+}
+
+.mmm-birthdays-table th,
+.mmm-birthdays-table td {
+  padding-top: 0.15em;
+  padding-bottom: 0.15em;
+  padding-right: 2ch;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+.mmm-birthdays-table th:last-child,
+.mmm-birthdays-table td:last-child {
+  padding-right: 0;
+}
+
+.mmm-birthdays-table th {
+  text-align: left;
+  font-weight: 600;
+}
+
+.mmm-birthdays-table td.days,
+.mmm-birthdays-table td.age,
+.mmm-birthdays-table td.date {
+  font-variant-numeric: tabular-nums;
+}
+
+.mmm-birthdays-table .num-single {
+  display: inline-block;
+  min-width: 1ch;
+  text-align: right;
+}
+
+.mmm-birthdays-table .bday-num {
+  display: inline-block;
+  width: 2ch;
+  text-align: right;
+  margin-right: 0.5ch;
+}
+
+.mmm-birthdays-table .bday-month {
+  display: inline-block;
+  margin-right: 0.6ch;
+}
+
+.mmm-birthdays-table tr.is-today,
+.mmm-birthdays-table tr.is-today td {
+  color: #ffd000 !important;
+}
