@@ -1,0 +1,11 @@
+{
+  "headerDays": "Within",
+  "headerName": "Birthday",
+  "headerAge": "Will be",
+  "headerDate": "Born on",
+  "today": "Today",
+  "day": "day",
+  "days": "days",
+  "yearSuffix": "Years",
+  "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+}
