@@ -1,0 +1,11 @@
+{
+  "headerDays": "Binnen",
+  "headerName": "Jarige",
+  "headerAge": "Wordt",
+  "headerDate": "Geboren op",
+  "today": "Vandaag",
+  "day": "dag",
+  "days": "dagen",
+  "yearSuffix": "Jaar",
+  "months": ["Jan", "Feb", "Mrt", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"]
+}
