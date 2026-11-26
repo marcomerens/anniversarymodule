@@ -2,7 +2,7 @@
 
 A [MagicMirror²](https://magicmirror.builders/) module that displays upcoming birthdays, the number of days remaining, the age the person will turn, and their birth date.
 
-![MMM-Birthdays screenshot](IMG_2165.jpeg)
+![MMM-Birthdays screenshot](IMG_2169.jpeg)
 
 Derived from [`BIRTHDAYS` (`anniversarymodule`)](https://github.com/marcomerens/anniversarymodule) by Marco Merens.
 
