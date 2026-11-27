@@ -20,7 +20,9 @@ Module.register("MMM-Birthdays", {
   getTranslations() {
     return {
       nl: "locales/nl.json",
-      en: "locales/en.json"
+      en: "locales/en.json",
+      fr: "locales/fr.json",
+      de: "locales/de.json"
     };
   },
 

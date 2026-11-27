@@ -1,0 +1,26 @@
+{
+  "headerWithin": "Dans",
+  "headerName": "Anniversaire",
+  "headerWillBe": "Aura",
+  "headerBirthday": "Né(e) le",
+  "today": "Aujourd'hui",
+  "day": "jour",
+  "days": "jours",
+  "yearSuffix": "ans",
+  "inYear": "",
+  "noBirthdays": "Aucun anniversaire",
+  "months": [
+    "Janv.",
+    "Févr.",
+    "Mars",
+    "Avr.",
+    "Mai",
+    "Juin",
+    "Juil.",
+    "Août",
+    "Sept.",
+    "Oct.",
+    "Nov.",
+    "Déc."
+  ]
+}

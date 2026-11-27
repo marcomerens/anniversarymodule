@@ -1,0 +1,26 @@
+{
+  "headerWithin": "In",
+  "headerName": "Name",
+  "headerWillBe": "Wird",
+  "headerBirthday": "Geboren am",
+  "today": "Heute",
+  "day": "Tag",
+  "days": "Tage",
+  "yearSuffix": "Jahre",
+  "inYear": "",
+  "noBirthdays": "Keine Geburtstage",
+  "months": [
+    "Jan.",
+    "Feb.",
+    "März",
+    "Apr.",
+    "Mai",
+    "Juni",
+    "Juli",
+    "Aug.",
+    "Sept.",
+    "Okt.",
+    "Nov.",
+    "Dez."
+  ]
+}
