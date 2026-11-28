@@ -22,7 +22,8 @@ Module.register("MMM-Birthdays", {
       nl: "locales/nl.json",
       en: "locales/en.json",
       fr: "locales/fr.json",
-      de: "locales/de.json"
+      de: "locales/de.json",
+      de: "locales/es.json"
     };
   },
 

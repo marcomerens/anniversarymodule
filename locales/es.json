@@ -1,0 +1,11 @@
+{
+  "headerDays": "En",
+  "headerName": "Cumpleañero",
+  "headerAge": "Cumple",
+  "headerDate": "Nacido el",
+  "today": "Hoy",
+  "day": "día",
+  "days": "días",
+  "yearSuffix": "años",
+  "months": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+}
