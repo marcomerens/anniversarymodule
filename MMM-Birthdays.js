@@ -23,7 +23,6 @@ Module.register("MMM-Birthdays", {
       en: "locales/en.json",
       fr: "locales/fr.json",
       de: "locales/de.json"
-      es: "locales/es.json"
     };
   },
 
